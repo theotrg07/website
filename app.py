@@ -29,6 +29,7 @@ class Issue(db.Model):
     title = db.Column(db.String(200))
     link = db.Column(db.String(1000))
     reward = db.Column(db.Integer)
+    des = db.Column(db.Text)
 
 
 class LoginForm(FlaskForm):
@@ -108,7 +109,14 @@ def issue(id):
 @app.route('/add_issue', methods=["POST", "GET"])
 def add_issue():
     if request.method == "POST":
-        pass
+        title = request.form["title"]
+        link = request.form["link"]
+        reward = request.form["coins"]
+        des = request.form["description"]
+        issue = Issue(title=title, link=link, reward=reward, des=des)
+        db.session.add(issue)
+        db.session.commit()
+        return redirect(url_for("issues"))
     else:
         return render_template("add_issue.html")
 

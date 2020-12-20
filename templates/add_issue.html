@@ -10,7 +10,26 @@
 </head>
 <body>
     <div class="container">
-        
+        <h1>Add a issue</h1>
+        <form autocomplete="off" action="{{ url_for('add_issue') }}" method=POST>
+            <div class="mb-3">
+              <label for="title" class="form-label">Issue Title: </label>
+              <input type="text" class="form-control" id="title" name="title" required>
+            </div>
+            <div class="mb-3">
+              <label for="link" class="form-label">Github Issue Link: </label>
+              <input type="text" class="form-control" id="link" name="link" required>
+            </div>
+            <div class="mb-3">
+                <label for="coins" class="form-label">Coins: </label>
+                <input type="text" class="form-control" id="coins" name="coins" required>
+              </div>
+              <div class="mb-3">
+                <label for="description" class="form-label">Description: </label>
+                <textarea class="form-control" id="description" name="description" required rows="3"></textarea>
+              </div>
+            <button type="submit" class="btn btn-primary">Add Issue</button>
+          </form>
     </div>
 </body>
 </html>
