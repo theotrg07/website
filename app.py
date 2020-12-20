@@ -24,16 +24,11 @@ class User(UserMixin, db.Model):
     email = db.Column(db.String(50), unique=True)
     password = db.Column(db.String(80))
 
-# class Product(db.Model):
-#     """
-#     Database class
-#     """
-#     id = db.Column(db.Integer, primary_key=True)
-#     name = db.Column(db.String(50))
-#     projectname = db.Column(db.String(50))
-#     date_posted = db.Column(db.DateTime)
-#     des = db.Column(db.Text)
-#     repo = db.Column(db.String(50))
+class Issue(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(200))
+    link = db.Column(db.String(1000))
+    reward = db.Column(db.Integer)
 
 
 class LoginForm(FlaskForm):
@@ -50,15 +45,6 @@ class RegisterForm(FlaskForm):
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
-
-
-@app.route('/')
-def index():
-    return render_template('index.html')
-
-@app.route('/h')
-def home():
-    return render_template('home.html')
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -98,6 +84,33 @@ def logout():
     logout_user()
     return redirect(url_for('index'))
 
+@app.route('/')
+def index():
+    return render_template('index.html')
+
+@app.route('/h')
+@login_required
+def home():
+    return render_template('home.html')
+
+@app.route('/issues')
+@login_required
+def issues():
+    issues = Issue.query.all()
+    return render_template("issues.html", issues=issues)
+
+@app.route("/issue/<int:id>")
+@login_required
+def issue(id):
+    issue = Issue.query.get_or_404(id)
+    return render_template("issue.html", issue=issue)
+
+@app.route('/add_issue', methods=["POST", "GET"])
+def add_issue():
+    if request.method == "POST":
+        pass
+    else:
+        return render_template("add_issue.html")
 
 if __name__ == '__main__':
     db.create_all()
