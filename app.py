@@ -92,7 +92,7 @@ def index():
 @app.route('/h')
 @login_required
 def home():
-    return render_template('home.html')
+    return render_template('home.html', user=current_user)
 
 @app.route('/issues')
 @login_required
@@ -119,6 +119,35 @@ def add_issue():
         return redirect(url_for("issues"))
     else:
         return render_template("add_issue.html")
+
+#sending coins
+@app.route('/send_coins', methods=["POST", "GET"])
+def send_coins():
+    if request.method == "POST":
+        aid = request.form["aid"]
+        amt = request.form["amt"]
+        aid = int(aid)
+        amt = int(amt)
+        if current_user.coins < amt:
+            return "You don't have enough coins to send"
+        current_user.coins = current_user.coins - amt
+        db.session.commit()
+        account = User.query.get_or_404(aid)
+        account.coins = account.coins + amt
+        db.session.commit()
+        return redirect(url_for("home"))
+    else:
+        return render_template("send_coins.html")
+
+@app.route('/u')
+def users():
+    users = User.query.all()
+    return render_template("users.html", users=users)
+
+@app.route('/coins/<int:id>')
+def coins(id):
+    user = User.query.get_or_404(id)
+    return f"you have {user.coins} coins"
 
 if __name__ == '__main__':
     db.create_all()

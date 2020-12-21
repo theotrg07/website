@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OpenDevs | Issues</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    <link rel="icon" href="{{ url_for('static', filename='icon.ico') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Send coins</h1>
+        <form autocomplete="off" action="{{ url_for('send_coins') }}" method=POST>
+            <div class="mb-3">
+              <label for="aid" class="form-label">Account ID: </label>
+              <input type="number" class="form-control" name="aid" required>
+            </div>
+            <div class="mb-3">
+              <label for="amt" class="form-label">Amount: </label>
+              <input type="number" class="form-control" id="amt" name="amt" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Send</button>
+          </form>
+    </div>
+</body>
+</html>
